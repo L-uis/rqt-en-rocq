@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poster</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 0; background-color: white; }
+        
+        header { 
+            background-color: #3d7079; 
+            color: #e1e8d9; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            text-align: center; 
+        }
+        .textos-banner h1 { margin: 0; font-size: 28px; }
+        .textos-banner h2 { margin: 5px 0; font-size: 18px; font-weight: normal; }
+        .textos-banner p { margin: 2px 0; font-size: 14px; }
+        .imagen-banner { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; }
+
+        .botones { margin-top: 15px; }
+        .boton { 
+            display: inline-block;
+            text-decoration: none; 
+            padding: 6px 16px; 
+            margin: 0 5px; 
+            background-color: #efe4ca; 
+            border: 1px solid #3d7079; 
+            color: #3d7079; 
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .boton:hover { background-color: white; }
+
+        main { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; }
+        .columna { flex: 1; min-width: 300px; }
+        .ancho-completo { flex: 0 0 100%; width: 100%; }
+        .linea-divisoria { width: 100%; border-bottom: 2px solid #a3b5b7; margin-bottom: 10px; }
+
+        .bloque { margin-bottom: 20px; }
+        .bloque-titulo { background-color: #efe4ca; color: #3d7079; padding: 8px 12px; font-weight: bold; font-size: 18px; }
+        .bloque-contenido { background-color: #f9f8e7; padding: 15px 15px 5px 15px; border: 1px solid #f9f8e7; border-top: none; }
+        
+        .bloque ul { list-style: none; padding-left: 0; margin-top: 0; }
+        .bloque li { position: relative; padding-left: 20px; margin-bottom: 8px; font-size: 15px; }
+        .bloque li::before { content: '▶'; color: #d15a53; position: absolute; left: 0; font-size: 12px; top: 2px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="imagen-banner">
+            <img src="../imagenes/identidadvisual_logo_unam_blanco.svg" alt="Logo UNAM" style="max-width: 100%; max-height: 100%;">
+        </div>
+        <div class="textos-banner">
+            <!-- 
+            <h1>Construcción de imágenes en Rocq para demostrar</h1>  Para cambiar el tamaño podemos poner h2 o h3
+            <h1>algunas invariantes de los Region Quadtrees</h1>
+            -->
+            <h1>Construcción de imágenes en Rocq para demostrar algunas invariantes de los Region Quadtrees</h1>
+            <p>Ana Dhamar Cabrera Sánchez &nbsp;&nbsp;&nbsp; Juan Luis Peña Mata</p>
+            <p>Universidad Nacional Autónoma de México</p>
+            <p>Facultad de Ciencias</p>
+
+            <div class="botones">
+                <a href="../index.html" class="boton">Inicio</a>
+                <a href="../secciones/poster.html" class="boton">Poster</a>
+                <a href="../secciones/reporte.html" class="boton">Reporte</a>
+                <a href="../secciones/demostraciones.html" class="boton">Demostraciones</a>
+            </div>
+        </div>
+        <div class="imagen-banner">
+            <img src="../imagenes/identidadvisual_logo_fc_blanco.svg" alt="Logo FC" style="max-width: 100%; max-height: 100%;">
+        </div>
+    </header>
+    <main>
+        <div class="ancho-completo">
+            <div class="bloque">
+                <div class="bloque-titulo">Poster</div>
+                <div class="bloque-contenido">
+            
+                <p style="margin-bottom: 15px;">A continuación puedes visualizar el documento en formato PDF:</p>
+                <iframe 
+                    src="../poster/poster_v2.pdf" 
+                    width="100%" 
+                    height="900px" 
+                    style="border: 1px solid #a3b5b7; border-radius: 4px;">
+                
+                    <!-- Este texto solo aparece si el navegador del usuario es muy antiguo y no soporta PDFs -->
+                    Tu navegador no soporta la visualización de PDFs. 
+                    <a href="../poster/poster_v2.pdf" style="color: #3d7079; font-weight: bold;">Descárgalo aquí</a>.
+                
+                </iframe>
+
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

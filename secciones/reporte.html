@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 0; background-color: white; }
+        
+        header { 
+            background-color: #3d7079; 
+            color: #e1e8d9; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            text-align: center; 
+        }
+        .textos-banner h1 { margin: 0; font-size: 28px; }
+        .textos-banner h2 { margin: 5px 0; font-size: 18px; font-weight: normal; }
+        .textos-banner p { margin: 2px 0; font-size: 14px; }
+        .imagen-banner { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; }
+
+        .botones { margin-top: 15px; }
+        .boton { 
+            display: inline-block;
+            text-decoration: none; 
+            padding: 6px 16px; 
+            margin: 0 5px; 
+            background-color: #efe4ca; 
+            border: 1px solid #3d7079; 
+            color: #3d7079; 
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .boton:hover { background-color: white; }
+
+        main { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; }
+        .columna { flex: 1; min-width: 300px; }
+        .ancho-completo { flex: 0 0 100%; width: 100%; }
+        .linea-divisoria { width: 100%; border-bottom: 2px solid #a3b5b7; margin-bottom: 10px; }
+
+        .bloque { margin-bottom: 20px; }
+        .bloque-titulo { background-color: #efe4ca; color: #3d7079; padding: 8px 12px; font-weight: bold; font-size: 18px; }
+        .bloque-contenido { background-color: #f9f8e7; padding: 15px 15px 5px 15px; border: 1px solid #f9f8e7; border-top: none; }
+        
+        .bloque ul { list-style: none; padding-left: 0; margin-top: 0; }
+        .bloque li { position: relative; padding-left: 20px; margin-bottom: 8px; font-size: 15px; }
+        .bloque li::before { content: '▶'; color: #d15a53; position: absolute; left: 0; font-size: 12px; top: 2px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="imagen-banner">
+            <img src="../imagenes/identidadvisual_logo_unam_blanco.svg" alt="Logo UNAM" style="max-width: 100%; max-height: 100%;">
+        </div>
+        <div class="textos-banner">
+            <!-- 
+            <h1>Construcción de imágenes en Rocq para demostrar</h1>  Para cambiar el tamaño podemos poner h2 o h3
+            <h1>algunas invariantes de los Region Quadtrees</h1>
+            -->
+            <h1>Construcción de imágenes en Rocq para demostrar algunas invariantes de los Region Quadtrees</h1>
+            <p>Ana Dhamar Cabrera Sánchez &nbsp;&nbsp;&nbsp; Juan Luis Peña Mata</p>
+            <p>Universidad Nacional Autónoma de México</p>
+            <p>Facultad de Ciencias</p>
+
+            <div class="botones">
+                <a href="../index.html" class="boton">Inicio</a>
+                <a href="../secciones/poster.html" class="boton">Poster</a>
+                <a href="../secciones/reporte.html" class="boton">Reporte</a>
+                <a href="../secciones/demostraciones.html" class="boton">Demostraciones</a>
+            </div>
+        </div>
+        <div class="imagen-banner">
+            <img src="../imagenes/identidadvisual_logo_fc_blanco.svg" alt="Logo FC" style="max-width: 100%; max-height: 100%;">
+        </div>
+    </header>
+    <main>
+        <div class="ancho-completo">
+            <div class="bloque">
+                <div class="bloque-titulo">Introducción</div>
+                <div class="bloque-contenido">
+                    <p style="text-align: justify;"> 
+                        Las imágenes forman parte fundamental del conocimiento que adquiere
+                        el ser humano a lo largo de su existencia, pues son un método de
+                        aprendizaje y comunicación que nos ayuda a comprender de mejor manera
+                        nuestro entorno. Con la evolución del mundo digital, surgió la necesidad
+                        de integrar y procesar esta información visual de manera
+                        computacional.
+                    </p>
+                    <p style="text-align: justify;">
+                        Para llevar a cabo este proceso, las imágenes suelen ser
+                        representadas mediante dos tipos de archivos: el primero, es conocido
+                        como <em>raster graphic</em> o <em>bit map</em> y es la representación
+                        de un arreglo de píxeles; mientras que el segundo es conocido como
+                        <em>archivo vectorial</em> y contiene ecuaciones especificas que tienen
+                        la capacidad de dibujar la imagen almacenada.
+                    </p>
+
+                    <p style="text-align: justify;">
+                        Si bien ambas representaciones poseen ventajas y desventajas
+                        particulares respecto a la resolución y escala de la imagen que
+                        representan, ambos tipos de archivos tienen la necesidad de contar con
+                        estructuras de datos eficientes para almacenar, manipular y proyectar la
+                        información visual de manera óptima.
+                    </p>
+                    <!-- El coso de notas al pie de pagina tiene algunos problemas -->
+                    <p style="text-align: justify;">
+                        Enfocándonos momentáneamente en las etapas de almacenamiento y
+                        proyección, destaca una familia de estructuras conocida como
+                        <em>quadtrees</em>, cuya traducción al español suele ser árboles
+                        cuaternarios <a href="#fn1" class="footnote-ref" id="fnref1" 
+                        role="doc-noteref"><sup>1</sup></a> . Estos árboles están diseñados
+                        específicamente para subdividir en regiones regulares el espacio
+                        bidimensional y recuperar eficientemente la información que almacenan,
+                        siendo aplicables tanto para archivos vectoriales como para archivos de
+                        pixeles.
+                    </p>
+
+                    <p style="text-align: justify;">
+                        En este trabajo nos centraremos en los quadtrees destinados a la
+                        representación de imágenes con pixeles, puesto que en la actualidad
+                        existen múltiples sistemas de software que utilizan estas variantes en
+                        áreas como la medicina, la aeronáutica y la automatización en la
+                        detección de objetos. A partir de sus aplicaciones, resulta evidente que
+                        muchas de las disciplinas donde los quadtrees son requeridos forman
+                        parte del desarrollo de software crítico.
+                    </p>
+
+                    <p style="text-align: justify;">
+                        Derivado de lo anterior, existe una inherente necesidad de formalizar
+                        el comportamiento de esta estructura de datos para garantizar la
+                        ausencia de fallos críticos o pérdida de información, llevándonos a la
+                        pregunta base de esta investigación: <em>¿Qué invariantes deben
+                        mantenerse en los árboles cuaternarios destinados a interpretar imágenes
+                        digitalmente y cómo se formalizan?</em>
+                    </p>
+
+                    <p style="text-align: justify;">
+                        En el contenido de este trabajo, se propone verificar formalmente el
+                        comportamiento principal de la estructura de datos utilizando el
+                        asistente de pruebas Rocq, fundamentando la investigación y las
+                        decisiones de diseño en la correspondencia de Curry-Howard, los
+                        principios de la geometría computacional discreta y la teoría de tipos
+                        dependientes.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="ancho-completo">
+            <div class="bloque">
+                <div class="bloque-titulo">Bloque</div>
+                <div class="bloque-contenido">
+
+                </div>
+            </div>
+        </div>
+        
+        <div class="ancho-completo">
+            <div class="bloque">
+                <div class="bloque-titulo">PDF del reporte completo</div>
+                <div class="bloque-contenido">
+
+                    <iframe 
+                    src="../poster/Reporte_RQT.pdf" 
+                    width="100%" 
+                    height="900px" 
+                    style="border: 1px solid #a3b5b7; border-radius: 4px;">
+                
+                    <!-- Este texto solo aparece si el navegador del usuario es muy antiguo y no soporta PDFs -->
+                    Tu navegador no soporta la visualización de PDFs. 
+                    <a href="../poster/Reporte_RQT.pdf" style="color: #3d7079; font-weight: bold;">Descárgalo aquí</a>.
+                
+                </iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

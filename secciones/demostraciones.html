@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="coqdoc.css" rel="stylesheet" type="text/css" />
+    <title>Demostraciones</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 0; background-color: white; }
+        
+        header { 
+            background-color: #3d7079; 
+            color: #e1e8d9; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            text-align: center; 
+        }
+        .textos-banner h1 { margin: 0; font-size: 28px; }
+        .textos-banner h2 { margin: 5px 0; font-size: 18px; font-weight: normal; }
+        .textos-banner p { margin: 2px 0; font-size: 14px; }
+        .imagen-banner { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; }
+
+        .botones { margin-top: 15px; }
+        .boton { 
+            display: inline-block;
+            text-decoration: none; 
+            padding: 6px 16px; 
+            margin: 0 5px; 
+            background-color: #efe4ca; 
+            border: 1px solid #3d7079; 
+            color: #3d7079; 
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .boton:hover { background-color: white; }
+
+        main { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; }
+        .columna { flex: 1; min-width: 300px; }
+        .ancho-completo { flex: 0 0 100%; width: 100%; }
+        .linea-divisoria { width: 100%; border-bottom: 2px solid #a3b5b7; margin-bottom: 10px; }
+
+        .bloque { margin-bottom: 20px; }
+        .bloque-titulo { background-color: #efe4ca; color: #3d7079; padding: 8px 12px; font-weight: bold; font-size: 18px; }
+        .bloque-contenido { background-color: #f9f8e7; padding: 15px 15px 5px 15px; border: 1px solid #f9f8e7; border-top: none; }
+        
+        .bloque ul { list-style: none; padding-left: 0; margin-top: 0; }
+        .bloque li { position: relative; padding-left: 20px; margin-bottom: 8px; font-size: 15px; }
+        .bloque li::before { content: '•'; color: #d15a53; font-size: 16px; top: 0px; }
+        
+        /* Estilo del contenedor del código */
+        .codigo-bloque {
+            background-color: #fff6eb; /* Fondo crema muy sutil */
+            font-family: 'Consolas', 'Courier New', monospace; /* Tipografía para código */
+            font-size: 14px;
+            padding: 15px 0;
+            border: 1px solid #eadecf;
+            border-radius: 4px;
+            overflow-x: auto; /* Agrega scroll horizontal si la línea es muy larga */
+            margin-top: 10px;
+            counter-reset: contador-lineas; /* Inicia el contador automático */
+        }
+
+        /* Estructura de cada renglón */
+        .codigo-bloque .linea {
+            display: block;
+            white-space: pre; /* Respeta los espacios en blanco para la indentación */
+            line-height: 1.6;
+        }
+
+        /* Generador de números de línea automáticos */
+        .codigo-bloque .linea::before {
+            counter-increment: contador-lineas;
+            content: counter(contador-lineas);
+            display: inline-block;
+            width: 30px;
+            margin-right: 15px;
+            color: #999; /* Color gris para los números */
+            text-align: right;
+            user-select: none; /* Evita que el usuario copie el número al seleccionar el código */
+        }
+
+        /* Color para las palabras reservadas (Lemma, Proof, intros, etc.) */
+        .kw {
+            color: #e81180; /* Tono magenta/rosa */
+            font-weight: bold;
+        }
+
+        .subtema-linea {
+            color: #3d7079;
+            font-size: 16px;
+            font-weight: bold;
+            border-bottom: 2px solid #efe4ca; /* Línea inferior usando tu color crema */
+            padding-bottom: 4px;
+            margin-top: 20px; /* Espacio arriba para separarlo del párrafo anterior */
+            margin-bottom: 12px;
+        }
+
+        .subtema-caja {
+            background-color: white; /* Fondo blanco para que resalte sobre el beige del bloque */
+            border-left: 4px solid #d15a53; /* Usamos el rojo de tus triángulos para darle consistencia */
+            padding: 12px 15px;
+            margin: 15px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Sombra muy, muy sutil */
+        }
+
+        .subtema-caja-titulo {
+            color: #d15a53;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 6px;
+            text-transform: uppercase; /* Letras mayúsculas para diferenciarlo */
+            letter-spacing: 0.5px;
+        }
+
+        .subsubtema {
+            color: #3d7079;
+            font-size: 15px;
+            font-weight: bold;
+            font-style: italic;
+            margin-top: 15px;
+            margin-bottom: 6px;
+        }
+
+        .codigo-bloque .texto-explicativo {
+            display: block;
+            white-space: normal; /* Restaura el comportamiento normal del texto */
+            font-family: sans-serif; /* Regresa a la tipografía principal de la página */
+            font-size: 14px;
+            color: #3d7079;
+            padding: 10px 15px 10px 45px; /* El 45px a la izquierda respeta el margen de los números */
+            background-color: rgba(255, 255, 255, 0.5); /* Fondo ligeramente más claro para resaltarlo */
+            border-left: 3px solid #3d7079; /* Línea decorativa izquierda */
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="imagen-banner">
+            <img src="../imagenes/identidadvisual_logo_unam_blanco.svg" alt="Logo UNAM" style="max-width: 100%; max-height: 100%;">
+        </div>
+        <div class="textos-banner">
+            <!-- 
+            <h1>Construcción de imágenes en Rocq para demostrar</h1>  Para cambiar el tamaño podemos poner h2 o h3
+            <h1>algunas invariantes de los Region Quadtrees</h1>
+            -->
+            <h1>Construcción de imágenes en Rocq para demostrar algunas invariantes de los Region Quadtrees</h1>
+            <p>Ana Dhamar Cabrera Sánchez &nbsp;&nbsp;&nbsp; Juan Luis Peña Mata</p>
+            <p>Universidad Nacional Autónoma de México</p>
+            <p>Facultad de Ciencias</p>
+
+            <div class="botones">
+                <a href="../index.html" class="boton">Inicio</a>
+                <a href="../secciones/poster.html" class="boton">Poster</a>
+                <a href="../secciones/reporte.html" class="boton">Reporte</a>
+                <a href="../secciones/demostraciones.html" class="boton">Demostraciones</a>
+            </div>
+        </div>
+        <div class="imagen-banner">
+            <img src="../imagenes/identidadvisual_logo_fc_blanco.svg" alt="Logo FC" style="max-width: 100%; max-height: 100%;">
+        </div>
+    </header>
+    <main>
+
+        <div class="ancho-completo">
+            <div class="bloque">
+                <div class="bloque-titulo">Imágenes</div>
+                <div class="bloque-contenido">
+                    <p style="text-align: justify;">
+                        Modelaremos un pixel como un booleano, donde <span class="inlinecode"><span class="id" title="var">true</span></span> y <span class="inlinecode"><span class="id" title="var">false</span></span> actúan como
+                        simuladores de color.
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Definition</span> pixel := bool.</span>
+                    </div>
+
+                    <p style="text-align: justify;">
+                        Definimos una imagen como una función dependiente que es capaz de acotar
+                        sus coordenadas para garantizar sus proporciones.
+                    </p>
+
+                    <p style="text-align: justify;">
+                        La función toma dos números naturales, que simulan ser coordenadas 
+                        dentro de un plano cartesiano de dos dimensiones, y exige la prueba de
+                        que dichas coordenadas son, a lo más, 2<sup>n</sup> - 1 ,
+                        asegurando que la imagen tiene un tamaño de
+                        2<sup>n</sup> &times; 2<sup>n</sup> .
+                        Cuando la función se evalúa: si las demostraciones son válidas,
+                        se obtiene el pixel correspondiente a la coordenada especificada. 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Definition</span> imagen (n : nat) := </span>
+                        <span class="linea">  forall (x y : nat), x < 2^n -> y < 2^n -> pixel.</span>
+                    </div>
+
+                    <div class="subtema-linea">Límites de coordenadas.</div>
+                    
+                    <p style="text-align: justify;">
+                        Para indicar qué valores pueden tomar las coordenadas dada la proporción
+                        de una imagen, probaremos que se cumplen las siguientes propiedades. 
+                    </p>
+                    
+                    <div class="subsubtema">Lema de extensión para coordenadas.</div>
+
+                    <p style="text-align: justify;">
+                        Si una coordenada está dentro de un cuadrante (x &lt; 2<sup>n</sup> ), 
+                        entonces está dentro de la imagen completa (x &lt; 2<sup>n+1</sup> ). 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Lemma</span> xy_in_img : forall v n, v < 2^n -> v < 2^(S n). </span>
+                    </div>
+
+                    <div class="subsubtema">Lema de Traslación.</div>
+
+                    <p style="text-align: justify;">
+                        Si trasladamos una coordenada sumándole 2<sup>n</sup> ,
+                        la coordenada resultante tiene un límite que se mantiene dentro de la imagen
+                        completa (v + 2<sup>n</sup> &lt; 2<sup>n+1</sup> ). 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Lemma</span> xy_in_img_translacion : forall v n, v < 2^n -> v + 2^n < 2^(S n). </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="ancho-completo">
+            <div class="bloque">
+                <div class="bloque-titulo">Cuadrantes</div>
+                <div class="bloque-contenido">
+                    <p style="text-align: justify;">
+                        Para la definición de los cuadrantes, calculamos la
+                        traslación necesaria a partir de las coordenadas <span class="inlinecode"><span class="id" title="var">x</span></span>, <span class="inlinecode"><span class="id" title="var">y</span></span>
+                        originales; para ello consideramos la proporción de la 
+                        imagen 2<sup>n+1</sup> ,
+                        por lo que las propiedades que exigimos 
+                        que se cumplan en la definición son:
+                    </p>
+                    
+                    <ul class="doclist">
+                        <li> <span class="inlinecode"><span class="id" title="var">Hx</span></span>: x &lt; 2<sup>n</sup> ,</li>
+                        <li> <span class="inlinecode"><span class="id" title="var">Hy</span></span>: y &lt; 2<sup>n</sup> .</li>
+                    </ul>
+
+                    <div class="subtema-linea">Cuadrante NW</div>
+
+                    <p style="text-align: justify;">
+                        Representado por las coordenadas:
+                    </P>
+                    <ul class="doclist">
+                        <li> <span class="inlinecode"><span class="id" title="var">x</span></span> que varía de <span class="inlinecode">0</span> a 2<sup>n</sup> - 1 .</li>
+                        <li> <span class="inlinecode"><span class="id" title="var">y</span></span> que varía de 2<sup>n</sup>  hasta 2<sup>n+1</sup> - 1 . </li>
+                    </ul>
+                    
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Definition</span> cuadrante_NW {n : nat} (img : imagen (S n)) : imagen n := </span>
+                        <span class="linea"><span class="kw">  fun</span> x y Hx Hy =></span>
+                        <span class="linea">    img x (y + 2^n) (xy_in_img x n Hx) (xy_in_img_translacion y n Hy).</span>
+                    </div>
+
+                    <div class="subtema-linea">Cuadrante NE</div>
+
+                    <p style="text-align: justify;">
+                        Representado por las coordenadas:
+                    </P>
+                    <ul class="doclist">
+                        <li> <span class="inlinecode"><span class="id" title="var">x</span></span> que varía de 2<sup>n</sup>  hasta 2<sup>n+1</sup> - 1 .</li>
+                        <li> <span class="inlinecode"><span class="id" title="var">y</span></span> que varía de 2<sup>n</sup>  hasta 2<sup>n+1</sup> - 1 . </li>
+                    </ul>
+                    
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Definition</span> cuadrante_NE {n : nat} (img : imagen (S n)) : imagen n := </span>
+                        <span class="linea"><span class="kw">  fun</span> x y Hx Hy =></span>
+                        <span class="linea">    img (x + 2^n) (y + 2^n) (xy_in_img_translacion x n Hx) (xy_in_img_translacion y n Hy).</span>
+                    </div>
+
+                    <div class="subtema-linea">Cuadrante SW</div>
+                    <p style="text-align: justify;">
+                        Representado por las coordenadas <span class="inlinecode"><span class="id" title="var">x</span></span>, <span class="inlinecode"><span class="id" title="var">y</span></span> que varían de <span class="inlinecode">0</span> a 2<sup>n</sup> - 1 . 
+                    </P>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Definition</span> cuadrante_SW {n : nat} (img : imagen (S n)) : imagen n := </span>
+                        <span class="linea"><span class="kw">  fun</span> x y Hx Hy =></span>
+                        <span class="linea">    img x y (xy_in_img x n Hx) (xy_in_img y n Hy).</span>
+                    </div>
+
+                    <div class="subtema-linea">Cuadrante SE</div>
+
+                    <p style="text-align: justify;">
+                        Representado por las coordenadas:
+                    </P>
+
+                    <ul class="doclist">
+                        <li> <span class="inlinecode"><span class="id" title="var">x</span></span> que varía de 2<sup>n</sup>  hasta 2<sup>n+1</sup> - 1 .</li>
+                        <li> <span class="inlinecode"><span class="id" title="var">y</span></span> que varía de <span class="inlinecode">0</span> a 2<sup>n</sup> - 1 . </li>
+                    </ul>
+                    
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Definition</span> cuadrante_SE {n : nat} (img : imagen (S n)) : imagen n :=</span>
+                        <span class="linea"><span class="kw">  fun</span> x y Hx Hy =></span>
+                        <span class="linea">    img (x + 2^n) y (xy_in_img_translacion x n Hx) (xy_in_img y n Hy).</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="ancho-completo">
+            <div class="bloque">
+                <div class="bloque-titulo">Mapeo de coordenadas y ensamblaje de cuadrantes</div>
+                <div class="bloque-contenido">
+
+                    <p style="text-align: justify;">
+                        Para crear una imagen de tamaño 2<sup>n+1</sup> 
+                        a partir de 4 cuadrantes de tamaño 2<sup>n</sup> ,
+                        es necesario encontrar en qué cuadrante se localizarán las coordenadas
+                        de la imagen que estamos creando/ensamblando; a dichas coordenadas
+                        les llamaremos coordenadas globales.
+                    </p>
+
+                    <p style="text-align: justify;">
+                        Consideremos, sin pérdida de generalidad, que el valor de la coordenada
+                        global <span class="inlinecode"><span class="id" title="var">x</span></span> se encuentra en la segunda mitad de la imagen (hacia cualquier
+                        dirección).
+                        Sabemos entonces que x &ge; 2<sup>n</sup> , por lo que
+                        debemos buscar el pixel que la representa  en los cuadrantes derechos (SE, NE).
+                    </p>
+                        
+                    <p style="text-align: justify;">
+                        Sin embargo, todos los cuadrantes se definen con coordenadas cuyo valor
+                        varía de <span class="inlinecode">0</span> hasta 2<sup>n</sup> - 1 .
+                    </p>
+
+                    <p style="text-align: justify;">
+                        Por lo tanto, la operación necesaria para encontrar la coordenada en el
+                        cuadrante correspondiente resulta de sustraer 2<sup>n</sup> 
+                        unidades a la coordenada global <span class="inlinecode"><span class="id" title="var">x</span></span>.
+                    </p>
+
+                    <p style="text-align: justify;">
+                        Lo cual indica que necesitamos una verificación de que la coordenada que se 
+                        asignará (cuyo valor es x - 2<sup>n</sup> ),
+                        no excederá los límites del cuadrante.
+                    </p>
+
+                    <p style="text-align: justify;">
+                        Para ello demostramos el <b>Lema de localización</b> : 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Lemma</span> localiza_xy_desde_2n : forall v n, ~ (v < 2^n) -> v < 2^(S n) -> v - 2^n < 2^n. </span>
+                    </div>
+
+                    <div class="subtema-linea">La función de ensamblaje.</div>
+                    
+                    <p style="text-align: justify;">
+                        A partir de 4 sub-imágenes de tamaño 2<sup>n</sup> ,
+                        devuelve una imagen cuyas proporciones son 2<sup>n+1</sup> . 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Definition</span> ensamblar {n : nat}  </span>
+                        <span class="linea">  (nw ne sw se : imagen n) : imagen (S n) :=</span>
+                        <span class="linea"><span class="kw">  fun</span> x y Hx Hy =></span>
+                        <span class="linea"><span class="kw">    match</span> lt_dec x (2^n), lt_dec y (2^n) <span class="kw">with</span></span>
+                        <span class="linea">    | <span class="kw">left</span> Hx_lt, <span class="kw">right</span> Hy_ge =></span>
+                        <span class="linea">        nw x (y - 2^n) Hx_lt (localiza_xy_desde_2n y n Hy_ge Hy)</span>
+                        <span class="linea">    | <span class="kw">right</span> Hx_ge, <span class="kw">right</span> Hy_ge =></span>
+                        <span class="linea">        ne (x - 2^n) (y - 2^n) (localiza_xy_desde_2n x n Hx_ge Hx) (localiza_xy_desde_2n y n Hy_ge Hy)</span>
+                        <span class="linea">    | <span class="kw">left</span> Hx_lt, <span class="kw">left</span> Hy_lt => </span>
+                        <span class="linea">        sw x y Hx_lt Hy_lt</span>
+                        <span class="linea">    | <span class="kw">right</span> Hx_ge, <span class="kw">left</span> Hy_lt =></span>
+                        <span class="linea">        se (x - 2^n) y (localiza_xy_desde_2n x n Hx_ge Hx) Hy_lt</span>
+                        <span class="linea">    <span class="kw">end</span>.</span>
+                    </div>
+
+                    <div class="subtema-linea">Lema de Mapeo de Pixeles</div>
+
+                    <p style="text-align: justify;">
+                        Dos llamadas a una imagen son iguales si sus coordenadas son iguales (<span class="inlinecode"><span class="id" title="var">x1</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">x2</span></span>, <span class="inlinecode"><span class="id" title="var">y1</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">y2</span></span>), 
+                        incluso si las demostraciones que se otorgan para cada valor son distintas.
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Lemma </span>pixel_eq : forall n (img : imagen n) x1 y1 x2 y2</span>
+                        <span class="linea">  (Hx1 : x1 < 2^n) (Hy1 : y1 < 2^n)</span>
+                        <span class="linea">  (Hx2 : x2 < 2^n) (Hy2 : y2 < 2^n),</span>
+                        <span class="linea">  x1 = x2 -> y1 = y2 -></span>
+                        <span class="linea">  img x1 y1 Hx1 Hy1 = img x2 y2 Hx2 Hy2.</span>
+                    </div>
+
+                    <div class="subtema-linea">Teorema de Ensamblaje</div>
+
+                    <p style="text-align: justify;">
+                        Dividir y ensamblar la imagen preserva su estructura. 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Theorem</span> teorema_ensamblaje : forall {n} (img : imagen (S n)),</span>
+                        <span class="linea">  ensamblar (cuadrante_NW img) (cuadrante_NE img) </span>
+                        <span class="linea">            (cuadrante_SW img) (cuadrante_SE img) = img.</span>
+                    </div>
+
+                    <!-- Cosas raras de pasar al coso de documentacion aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-->
+                    <p style="text-align: justify;">
+                        Bajo el concepto de extensionalidad funcional, sabemos que las funciones son
+                        iguales si arrojan el mismo resultado al ser evaluadas con los mismos argumentos. 
+                    </p>
+
+                    <p>
+                        Procedemos por casos según los valores de las coordenadas <span class="inlinecode"><span class="id" title="var">x</span></span>, <span class="inlinecode"><span class="id" title="var">y</span></span>: 
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="ancho-completo">
+            <div class="bloque">
+                <div class="bloque-titulo">Region Quadtree</div>
+                <div class="bloque-contenido">
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Inductive</span> region_qt : <span class="kw">Type</span> :=</span>
+                        <span class="texto-explicativo">
+                            Cualquier región homogénea es una hoja en el árbol;
+                            agregamos como argumento el <span class="inlinecode"><span class="id" title="var">pixel</span></span> dentro de la imagen para
+                            recuperar el valor del color homogéneo que representa la hoja. 
+                        </span>
+                        <span class="linea">  | Leaf : pixel -> region_qt</span>
+                        <span class="texto-explicativo">
+                            Si la imagen es heterogénea, se define cursivamente sobre 4
+                            subárboles que corresponden de manera ordenada a los cuadrantes:
+                            NW, NE, SW y SE. 
+                        </span>
+                        <span class="linea">| Node : region_qt -> region_qt -> region_qt -> region_qt -> region_qt.</span>
+                    </div>
+
+                    <p style="text-align: justify;">
+                        Cualquier región homogénea es una hoja en el árbol;
+                        agregamos como argumento el <span class="inlinecode"><span class="id" title="var">pixel</span></span> dentro de la imagen para
+                        recuperar el valor del color homogéneo que representa la hoja. 
+                    </p>
+
+                    <div class="subtema-linea">Construcción RQT</div>
+
+                    <p style="text-align: justify;">
+                        Es inmediato notar que la construcción de un Region Quadtree (RQT) tiene
+                        la necesidad de determinar cuándo una sección de color está compuesta por
+                        un color único, y cuándo se compone por una variación de colores. 
+                    </p>
+
+                    <p style="text-align: justify;">
+                        La validación necesaria se realiza mediante la función auxiliar 
+                        <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span>, la cual se desenvuelve de manera recursiva
+                        sobre el exponente <span class="inlinecode"><span class="id" title="var">n</span></span> que dicta las proporciones de la imagen.
+                        Cuando la imagen es de un solo color devuelve <span class="inlinecode"><span class="id" title="var">Some</span></span> <span class="inlinecode"><span class="id" title="var">color_img</span></span>, 
+                        en otro caso devuelve <span class="inlinecode"><span class="id" title="var">None</span></span>. 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Fixpoint</span> es_homogenea (n : nat) : imagen n -> option pixel :=</span>
+                        <span class="linea">  <span class="kw">match</span> n <span class="kw">with</span></span>
+                        <span class="linea">    | 0 =></span>
+                        <span class="linea">        <span class="kw">fun</span> img =></span>
+                        <span class="linea">          Some (img 0 0 (Nat.lt_0_1) (Nat.lt_0_1))</span>
+                        <span class="linea">    | S n' =></span>
+                        <span class="linea">        <span class="kw"></span>fun img =></span>
+                        <span class="linea">          <span class="kw">match</span> es_homogenea n' (cuadrante_NW img),</span>
+                        <span class="linea">                es_homogenea n' (cuadrante_NE img),</span>
+                        <span class="linea">                es_homogenea n' (cuadrante_SW img),</span>
+                        <span class="linea">                es_homogenea n' (cuadrante_SE img) </span>
+                        <span class="linea">          <span class="kw">with</span></span>
+                        <span class="linea">            | Some c_nw, Some c_ne, Some c_sw, Some c_se => </span>
+                        <span class="linea">            <span class="kw">match</span> c_nw, c_ne, c_sw, c_se <span class="kw">with</span></span>
+                        <span class="linea">              | true, true, true, true => Some true</span>
+                        <span class="linea">              | false, false, false, false => Some false</span>
+                        <span class="linea">              | _, _, _, _ => None</span>
+                        <span class="linea">            <span class="kw">end</span></span>
+                        <span class="linea">            | _, _, _, _ => None</span>
+                        <span class="linea">          <span class="kw">end</span></span>
+                        <span class="linea">  <span class="kw">end</span>.</span>
+
+                    </div>
+
+                    <p style="text-align: justify;">
+                        Resulta indispensable demostrar que la función <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span>
+                        se comporta como debe. Por ello, enunciamos el Teorema:
+                        <span class="inlinecode"><span class="id" title="var">es_homogenea_correcta</span></span>.
+                    </p>
+
+                    <p style="text-align: justify;">
+                        La demostración de este teorema prueba que la función <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span>
+                        determina correctamente que si una región es coloreada por un único color,
+                        entonces cualquier coordenada (<span class="inlinecode"><span class="id" title="var">x</span></span>, <span class="inlinecode"><span class="id" title="var">y</span></span>) dentro de esa región devuelve
+                        exactamente el color identificado. 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Theorem</span> es_homogenea_correcta : forall n img color,</span>
+                        <span class="linea">  es_homogenea n img = Some color -></span>
+                        <span class="linea">  (forall x y Hx Hy, img x y Hx Hy = color).</span>
+                    </div>
+
+                    <p style="text-align: justify;">
+                        Tras verificar que la función <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span> se comporta correctamente,
+                        podemos definir la función encargada de la construcción
+                        de un <span class="inlinecode"><span class="id" title="var">region_qt</span></span> mediante su uso. 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Fixpoint</span> construye_region_qt (n : nat) : imagen n -> region_qt :=</span>
+                        <span class="linea">  <span class="kw">match</span> n <span class="kw">with</span></span>
+                        <span class="linea">  | 0 =></span>
+                        <span class="linea">     <span class="kw">fun</span> img => </span>
+                        <span class="linea">        Leaf (img 0 0 (Nat.lt_0_1) (Nat.lt_0_1))</span>
+                        <span class="linea">  | S n' => </span>
+                        <span class="linea">      <span class="kw">fun</span> img =></span>
+                        <span class="linea">        <span class="kw">match</span> es_homogenea (S n') img <span class="kw">with</span></span>
+                        <span class="linea">        | Some color => Leaf color</span>
+                        <span class="linea">        | None => </span>
+                        <span class="linea">            Node (construye_region_qt n' (cuadrante_NW img))</span>
+                        <span class="linea">                 (construye_region_qt n' (cuadrante_NE img))</span>
+                        <span class="linea">                 (construye_region_qt n' (cuadrante_SW img))</span>
+                        <span class="linea">                 (construye_region_qt n' (cuadrante_SE img))</span>
+                        <span class="linea">        <span class="kw">end</span></span>
+                        <span class="linea">  <span class="kw">end</span>.</span>
+                    </div>
+
+                    <div class="subtema-linea">Recuperación de la imagen</div>
+
+                    <p style="text-align: justify;">
+                        Dado que nuestra definición de imagen devuelve una función.
+                        Para recuperar el contenido de las hojas es necesario contar con
+                        una función constante que, sin importar las coordenadas especificadas,
+                        devuelva el color especificado de la región.
+                    </p>
+
+                    <p style="text-align: justify;">
+                        Definimos dicha función como sigue: 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Definition</span> generar_imagen_homogenea (n : nat) (color : pixel) : imagen n :=</span>
+                        <span class="linea">  <span class="kw">fun</span> x y Hx Hy => color.</span>
+                    </div>
+
+                    <p style="text-align: justify;">
+                        La funcion servirá para realizar el recorrido por profundidad que es
+                        capaz de recuperar de manera ordenada la imagen almacenada en el <span class="inlinecode"><span class="id" title="var">region_qt</span></span>: 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Fixpoint</span> recorre_region_qt (n : nat) (qt : region_qt) : imagen n :=</span>
+                        <span class="linea">  <span class="kw">match</span> qt <span class="kw">with</span></span>
+                        <span class="linea">  | Leaf color => generar_imagen_homogenea n color</span>
+                        <span class="linea">  | Node nw ne sw se => </span>
+                        <span class="linea">      <span class="kw">match</span> n <span class="kw">with</span></span>
+                        <span class="texto-explicativo">
+                            Para mantener la totalidad de la función, devolvemos
+                            el color representado por <span class="inlinecode"><span class="id" title="var">false</span></span>, sin embargo, 
+                            sabemos que este caso no sucede, pues un pixel
+                            no se puede dividir  
+                        </span>
+                        <span class="linea">      | 0 => generar_imagen_homogenea 0 false </span>
+                        <span class="linea">      | S n' => </span>
+                        <span class="linea">          ensamblar (recorre_region_qt n' nw)</span>
+                        <span class="linea">                    (recorre_region_qt n' ne) </span>
+                        <span class="linea">                    (recorre_region_qt n' sw) </span>
+                        <span class="linea">                    (recorre_region_qt n' se)</span>
+                        <span class="linea">      <span class="kw">end</span></span>
+                        <span class="linea">  <span class="kw">end</span>.</span>
+                    </div>
+
+                    <div class="subtema-caja">
+                        <div class="subtema-caja-titulo">Nota: Opacidad de la función</div>
+                        <p style="text-align: justify; font-size: 14px;">
+                            La siguiente instruccion impide que Rocq expanda la definición
+                            de la función <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span> con la táctica <span class="inlinecode"><span class="id" title="tactic">simpl</span></span>
+                            hasta que se le indique lo contrario.
+                        </p>
+
+                        <p style="text-align: justify; font-size: 14px;">
+                            Esto es necesario porque la expansión de la definición 
+                            provoca que las pruebas que utilizan su aplicación se alarguen
+                            intentando demostrar cada caso para el cual está definida
+                            <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span>. Esto resulta innecesario tras haber demostrado
+                            la correctitud de la función en el Teorema <span class="inlinecode"><span class="id" title="var">es_homogenea_correcta</span></span>.
+
+                        </p>
+
+                        <p style="text-align: justify; font-size: 14px;">
+                            De ello sabemos que la aplicación de la función
+                            evaluará sus argumentos de la manera esperada para cualquier 
+                            valor de entrada que cumpla las precondiciones correspondientes.
+                        </p>
+                        
+                        <p style="text-align: justify; font-size: 14px;">
+                            EL uso de <span class="inlinecode"><span class="id" title="keyword">Opaque</span></span> no debilita las demostraciones en las que la 
+                            función sea requerida a partir de este momento. Al haber demostrado
+                            con anterioridad su correctitud, se garantiza que las siguientes
+                            demostraciones dependen únicamente de la lógica y geometría
+                            correspondientes al enunciado que se desea probar, y no a 
+                            la función <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span>. 
+                        </p>
+                        <div class="codigo-bloque">
+                            <span class="linea"><span class="kw">Opaque</span> es_homogenea.</span>
+                        </div>
+                    </div>
+
+                    <div class="subtema-linea">Teorema de Identidad</div>
+
+                    <p style="text-align: justify;">
+                        El siguiente teorema concluye la formalización de la estructura tras
+                        verificar que la composición de funciones: 
+                        <span class="inlinecode"><span class="id" title="var">construye_region_qt</span></span> seguida de <span class="inlinecode"><span class="id" title="var">recorre_region_qt</span></span>
+                        resulta en la función identidad.
+                    </p>
+                    
+                    <p style="text-align: justify;">
+                        Este resultado garantiza que no ocurre pérdida de información al realizar
+                        el proceso de almacenamiento y recuperación de cualquier imagen. 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Theorem</span> identidad_region_qt : forall (n : nat) (img : imagen n),</span>
+                        <span class="linea">  recorre_region_qt n (construye_region_qt n img) = img.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ancho-completo">
+            <div class="bloque">
+                <div class="bloque-titulo">Invariantes para RQT</div>
+                <div class="bloque-contenido">
+
+                    <div class="subtema-linea">Representación Mínima.</div>
+
+                    <p style="text-align: justify;">
+                        Ningún nodo interno se asocia como padre de 4 
+                        cuadrantes que representen el mismo color, pues de ser así
+                        las 4 regiones homogéneas del mismo color deberían haberse
+                        representado con el constructor <span class="inlinecode"><span class="id" title="var">Leaf</span></span> un nivel antes. 
+
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Inductive</span> es_minimo : region_qt -> Prop :=</span>
+                        <span class="texto-explicativo">
+                            Una hoja que representa el color de una región en el árbol
+                            es,por definición, la representación mínima de una región.
+                        </span>
+                        <span class="linea">  | Min_Leaf : forall c, es_minimo (Leaf c)</span>
+                        <span class="texto-explicativo">
+                            Un nodo es la representación mínima de una región heterogénea
+                            si se cumplen:
+                            <br>1) Sus 4 subárboles son mínimos.
+                            <br>2) No ocurre que exista un color <span class="inlinecode"><span class="id" title="var">c</span></span> tal que la construcción
+                               de los 4 subárboles esté dada por <span class="inlinecode"><span class="id" title="var">Leaf</span></span> <span class="inlinecode"><span class="id" title="var">c</span></span>. 
+                        </span>
+                        <span class="linea">  | Min_Node : forall nw ne sw se,</span>
+                        <span class="linea">      es_minimo nw -></span>
+                        <span class="linea">      es_minimo ne -></span>
+                        <span class="linea">      es_minimo sw -></span>
+                        <span class="linea">      es_minimo se -></span>
+                        <span class="linea">      ~ (exists c, nw = Leaf c /\ ne = Leaf c /\ sw = Leaf c /\ se = Leaf c) -></span>
+                        <span class="linea">      es_minimo (Node nw ne sw se).</span>
+                    </div>
+
+                    <p style="text-align: justify;">
+                        Antes de abordar el teorema principal para la demostración de esta invariante, 
+                        requerimos demostrar dos propiedades sobre el comportamiento de nuestras funciones.
+                        <br><br>
+                        EL primer resultado se establece con el lema <span class="inlinecode"><span class="id" title="var">construye_leaf_homogenea</span></span>, el cual
+                        establece que si el algoritmo de construcción para <span class="inlinecode"><span class="id" title="var">region_qt</span></span> devuelve una
+                        función para construir <span class="inlinecode"><span class="id" title="var">Leaf</span></span> <span class="inlinecode"><span class="id" title="var">c</span></span>, entonces la función
+                        <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span> identificó la región como homogénea devolviendo <span class="inlinecode"><span class="id" title="var">Some</span></span> <span class="inlinecode"><span class="id" title="var">c</span></span>. 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Lemma</span> construye_leaf_homogenea : forall n img c,</span>
+                        <span class="linea">  construye_region_qt n img = Leaf c -> es_homogenea n img = Some c.</span>
+                    </div>
+
+                    <div class="subtema-caja">
+                        <div class="subtema-caja-titulo">Nota: Extensión de la definición</div>
+                        
+                        <p style="text-align: justify; font-size: 14px;">
+                            Para demostrar que el RQT cumple la invariante definida por
+                            el predicado <span class="inlinecode"><span class="id" title="var">es_minimo</span></span>, no basta con que la función 
+                            <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span> sea correcta, como ha ocurrido hasta ahora;
+                            necesitamos comprobar el comportamiento que ejecuta en cada
+                            caso para corroborar que una región homogénea no será
+                            representada por el constructor <span class="inlinecode"><span class="id" title="var">Node</span></span>, por lo cual permitimos
+                            que la definición de <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span> sea visible para el
+                            siguiente lema.
+                        </p>
+
+                        <div class="codigo-bloque">
+                            <span class="linea"><span class="kw">Transparent</span> es_homogenea.</span>
+                        </div>
+
+                    </div>
+
+                    <p style="text-align: justify;">
+                        El lema <span class="inlinecode"><span class="id" title="var">composicion_homogenea</span></span> establece que si los cuadrantes de
+                        una imagen arrojan exactamente el mismo color, <span class="inlinecode"><span class="id" title="var">c</span></span>, entonces la función
+                        <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span> devolverá <span class="inlinecode"><span class="id" title="var">Some</span></span> <span class="inlinecode"><span class="id" title="var">c</span></span> para la imagen que los contiene. 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Lemma</span> composicion_homogenea : forall n img c,</span>
+                        <span class="linea">  es_homogenea n (cuadrante_NW img) = Some c -></span>
+                        <span class="linea">  es_homogenea n (cuadrante_NE img) = Some c -></span>
+                        <span class="linea">  es_homogenea n (cuadrante_SW img) = Some c -></span>
+                        <span class="linea">  es_homogenea n (cuadrante_SE img) = Some c -></span>
+                        <span class="linea">  es_homogenea (S n) img = Some c.</span>
+                    </div>
+
+                    <p style="text-align: justify;">
+                        Tras haber demostrado el lema anterior, y por la misma
+                        razón por la cual prohibimos a <span class="inlinecode"><span class="id" title="tactic">simpl</span></span> desarrollar 
+                        la definición de la función <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span>, volvemos a
+                        ocultarla.   
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Opaque</span> es_homogenea.</span>
+                    </div>
+                    
+
+                    <div class="subtema-linea">Teorema: Construcción Mínima</div>
+
+                    <p style="text-align: justify;">
+                        Para cualquier imagen definida correctamente,
+                        el algoritmo <span class="inlinecode"><span class="id" title="var">construye_region_qt</span></span> siempre genera
+                        el árbol representativo minimizado. 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Theorem</span> construccion_es_minima : forall n img,</span>
+                        <span class="linea">  es_minimo (construye_region_qt n img).</span>
+                    </div>
+
+                    <div class="subtema-linea">Altura Máxima.</div>
+
+                    <p style="text-align: justify;">
+                        Para acotar la altura de los árboles construidos mediante la función
+                        <span class="inlinecode"><span class="id" title="var">construye_region_qt</span></span>, necesitamos establecer los criterios para calcular
+                        la altura de un RQT. Para ello, seguimos la definición convencional donde la
+                        altura se calcula respecto al camino más largo de la raíz a las hojas: 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Fixpoint</span> altura_qt (qt : region_qt) : nat :=</span>
+                        <span class="linea">  <span class="kw">match</span> qt <span class="kw">with</span></span>
+                        <span class="linea">  | Leaf _ => 0</span>
+                        <span class="linea">  | Node nw ne sw se => </span>
+                        <span class="linea">      S (Nat.max (Nat.max (altura_qt nw) (altura_qt ne))</span>
+                        <span class="linea">                 (Nat.max (altura_qt sw) (altura_qt se)))</span>
+                        <span class="linea">  <span class="kw">end</span>.</span>
+                    </div>
+
+                    <div class="subtema-linea">Teorema: Altura máxima</div>
+
+                    <p style="text-align: justify;">
+                        Para cualquier imagen con proporciones 2<sup>n</sup> &times; 2<sup>n</sup> ,
+                        la altura máxima de un RQT generado por <span class="inlinecode"><span class="id" title="var">construye_region_qt</span></span>
+                        es a lo más, log<sub>4</sub>(num_pixeles) = n . 
+                    </p>
+
+                    <div class="codigo-bloque">
+                        <span class="linea"><span class="kw">Theorem</span> altura_max : forall n img,</span>
+                        <span class="linea">  altura_qt (construye_region_qt n img) <= n.</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+</body>
+</html>
