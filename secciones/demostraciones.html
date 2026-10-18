@@ -87,6 +87,11 @@
             font-weight: bold;
         }
 
+        .comentario {
+            color: #186e96;
+            font-weight: bold;
+        }
+
         .subtema-linea {
             color: #3d7079;
             font-size: 16px;
@@ -128,11 +133,43 @@
             white-space: normal; /* Restaura el comportamiento normal del texto */
             font-family: sans-serif; /* Regresa a la tipografía principal de la página */
             font-size: 14px;
-            color: #3d7079;
+            color: #186e96;
             padding: 10px 15px 10px 45px; /* El 45px a la izquierda respeta el margen de los números */
             background-color: rgba(255, 255, 255, 0.5); /* Fondo ligeramente más claro para resaltarlo */
-            border-left: 3px solid #3d7079; /* Línea decorativa izquierda */
+            border-left: 3px solid #186e96; /* Línea decorativa izquierda */
             margin: 10px 0;
+        }
+        /* Quita la viñeta por defecto del menú desplegable */
+        details.codigo-bloque summary {
+            list-style: none;
+            cursor: pointer;
+        }
+        details.codigo-bloque summary::-webkit-details-marker {
+            display: none; /* Para navegadores basados en WebKit (Chrome/Safari) */
+        }
+
+        /* Efecto hover para indicar que es interactivo */
+        details.codigo-bloque summary:hover {
+            background-color: rgba(0, 0, 0, 0.03); 
+        }
+
+        /* Barra visual que invita a hacer clic */
+        .mensaje-desplegar {
+            display: block;
+            font-family: sans-serif;
+            font-size: 12px;
+            color: #d15a53;
+            text-align: center;
+            padding: 4px;
+            border-top: 1px dashed #eadecf;
+            border-bottom: 1px dashed #eadecf;
+            margin: 8px 0;
+            user-select: none;
+        }
+
+        /* Oculta la barra visual cuando el bloque ya está abierto */
+        details.codigo-bloque[open] .mensaje-desplegar {
+            display: none;
         }
     </style>
 </head>
@@ -212,9 +249,21 @@
                         entonces está dentro de la imagen completa (x &lt; 2<sup>n+1</sup> ). 
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Lemma</span> xy_in_img : forall v n, v < 2^n -> v < 2^(S n). </span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Lemma</span> xy_in_img : forall v n, v < 2^n -> v < 2^(S n). </span>
+                            
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
+
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">intros</span>.</span>
+                        <span class="linea">  <span class="kw">simpl</span>.</span>
+                        <span class="linea">  <span class="kw">lia</span>.</span>
+                        <span class="linea"><span class="kw">Qed</span>.</span>
+
+                    </details>
 
                     <div class="subsubtema">Lema de Traslación.</div>
 
@@ -224,9 +273,21 @@
                         completa (v + 2<sup>n</sup> &lt; 2<sup>n+1</sup> ). 
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Lemma</span> xy_in_img_translacion : forall v n, v < 2^n -> v + 2^n < 2^(S n). </span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Lemma</span> xy_in_img_translacion : forall v n, v < 2^n -> v + 2^n < 2^(S n). </span>
+                            
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
+
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">intros</span>.</span>
+                        <span class="linea">  <span class="kw">simpl</span>.</span>
+                        <span class="linea">  <span class="kw">lia</span>.</span>
+                        <span class="linea"><span class="kw">Qed</span>.</span>
+
+                    </details>
 
                 </div>
             </div>
@@ -356,9 +417,20 @@
                         Para ello demostramos el <b>Lema de localización</b> : 
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Lemma</span> localiza_xy_desde_2n : forall v n, ~ (v < 2^n) -> v < 2^(S n) -> v - 2^n < 2^n. </span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Lemma</span> localiza_xy_desde_2n : forall v n, ~ (v < 2^n) -> v < 2^(S n) -> v - 2^n < 2^n. </span>
+                            
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
+
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">simpl</span> in H0.</span>
+                        <span class="linea">  <span class="kw">lia</span>.</span>
+                        <span class="linea"><span class="kw">Qed</span>.</span>
+
+                    </details>
 
                     <div class="subtema-linea">La función de ensamblaje.</div>
                     
@@ -390,13 +462,27 @@
                         incluso si las demostraciones que se otorgan para cada valor son distintas.
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Lemma </span>pixel_eq : forall n (img : imagen n) x1 y1 x2 y2</span>
-                        <span class="linea">  (Hx1 : x1 < 2^n) (Hy1 : y1 < 2^n)</span>
-                        <span class="linea">  (Hx2 : x2 < 2^n) (Hy2 : y2 < 2^n),</span>
-                        <span class="linea">  x1 = x2 -> y1 = y2 -></span>
-                        <span class="linea">  img x1 y1 Hx1 Hy1 = img x2 y2 Hx2 Hy2.</span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Lemma </span>pixel_eq : forall n (img : imagen n) x1 y1 x2 y2</span>
+                            <span class="linea">  (Hx1 : x1 < 2^n) (Hy1 : y1 < 2^n)</span>
+                            <span class="linea">  (Hx2 : x2 < 2^n) (Hy2 : y2 < 2^n),</span>
+                            <span class="linea">  x1 = x2 -> y1 = y2 -></span>
+                            <span class="linea">  img x1 y1 Hx1 Hy1 = img x2 y2 Hx2 Hy2.</span>
+                            
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
+
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">intros</span>.</span>
+                        <span class="linea">  <span class="kw">subst</span>.</span>
+                        <span class="linea">  f_equal.</span>
+                        <span class="linea">  -<span class="kw">apply</span> le_unique.</span>
+                        <span class="linea">  -<span class="kw">apply</span> le_unique.</span>
+                        <span class="linea"><span class="kw">Qed</span>.</span>
+
+                    </details>
 
                     <div class="subtema-linea">Teorema de Ensamblaje</div>
 
@@ -404,21 +490,81 @@
                         Dividir y ensamblar la imagen preserva su estructura. 
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Theorem</span> teorema_ensamblaje : forall {n} (img : imagen (S n)),</span>
-                        <span class="linea">  ensamblar (cuadrante_NW img) (cuadrante_NE img) </span>
-                        <span class="linea">            (cuadrante_SW img) (cuadrante_SE img) = img.</span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Theorem</span> teorema_ensamblaje : forall {n} (img : imagen (S n)),</span>
+                            <span class="linea">  ensamblar (cuadrante_NW img) (cuadrante_NE img) </span>
+                            <span class="linea">            (cuadrante_SW img) (cuadrante_SE img) = img.</span>
 
-                    <!-- Cosas raras de pasar al coso de documentacion aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-->
-                    <p style="text-align: justify;">
-                        Bajo el concepto de extensionalidad funcional, sabemos que las funciones son
-                        iguales si arrojan el mismo resultado al ser evaluadas con los mismos argumentos. 
-                    </p>
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
 
-                    <p>
-                        Procedemos por casos según los valores de las coordenadas <span class="inlinecode"><span class="id" title="var">x</span></span>, <span class="inlinecode"><span class="id" title="var">y</span></span>: 
-                    </p>
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">intros</span>.</span>
+                        <span class="texto-explicativo">
+                            Bajo el concepto de extensionalidad funcional, sabemos que las funciones son
+                            iguales si arrojan el mismo resultado al ser evaluadas con los mismos argumentos. 
+                    
+                        </span>
+                        <span class="linea">  <span class="kw">extensionality</span> x.</span>
+                        <span class="linea">  <span class="kw">extensionality</span> y.</span>
+                        <span class="linea">  <span class="kw">extensionality</span> Hx.</span>
+                        <span class="linea">  <span class="kw">extensionality</span> Hy.</span>
+                        <span class="linea">  <span class="kw">unfold</span> ensamblar.</span>
+                        <span class="texto-explicativo">
+                            Procedemos por casos según los valores de las coordenadas <span class="inlinecode"><span class="id" title="var">x</span></span>, <span class="inlinecode"><span class="id" title="var">y</span></span>: 
+                        </span>
+                        <span class="linea">  <span class="kw">destruct</span> (lt_dec x (2^n)) <span class="kw">as</span> [Hx_lt | Hx_ge];</span>
+                        <span class="linea">  <span class="kw">destruct</span> (lt_dec y (2^n)) <span class="kw">as</span> [Hy_lt | Hy_ge].</span>
+                        <span class="texto-explicativo">
+                            <b>Caso 1: SW</b> (x &lt; 2<sup>n</sup>, y &lt; 2<sup>n</sup>).<br>
+                            Las coordenadas globales corresponden exactamente a las locales.
+                            [ensamblar] utiliza los valores de entrada para buscar el pixel sin
+                            realizar modificaciones, por lo cual es inmediato.
+                        </span>
+                        <span class="linea">  - <span class="kw">unfold</span> cuadrante_SW.</span>
+                        <span class="linea">    <span class="kw">apply</span> pixel_eq.</span>
+                        <span class="linea">    + <span class="kw">reflexivity</span>.<span class="comentario">(*x = x*)</span></span>
+                        <span class="linea">    + <span class="kw">reflexivity</span>.<span class="comentario">(*y = y*)</span></span>
+                        <span class="texto-explicativo">
+                            <b>Caso 2: NW</b>(x &lt; 2<sup>n</sup>, y &ge; 2<sup>n</sup>).<br>
+                            Para la coordenada [y], la función [ensamblar] obtiene el pixel a devolver
+                            restando 2<sup>n</sup> a [y].
+                            Por lo que, el cuadrante NW proyecta la coordenada
+                            (y - 2<sup>n</sup>) + 2<sup>n</sup> = y.
+                            Como y &ge; 2<sup>n</sup>, la igualdad es correcta.
+                            Además, [x] mantiene intacto su valor de entrada.
+                        </span>
+                        <span class="linea">  - <span class="kw">unfold</span> cuadrante_NW.</span>
+                        <span class="linea">    <span class="kw">apply</span> pixel_eq.</span>
+                        <span class="linea">    + <span class="kw">reflexivity</span>. <span class="comentario">(* x = x *)</span></span>
+                        <span class="linea">    + <span class="kw">lia</span>. <span class="comentario">(* (y - 2^n) + 2^n = y *)</span></span>
+                        <span class="texto-explicativo">
+                            <b>Caso 3: SE</b> (x &ge; 2<sup>n</sup>, y &lt; 2<sup>n</sup>).
+                            Análogamente, para la coordenada [x], la función [ensamblar] obtiene la
+                            coordenada restando 2<sup>n</sup> a [x].
+                            Por lo que, [cuadrante_SE] proyecta la coordenada
+                            (x - 2<sup>n</sup>) + 2<sup>n</sup> = x.
+                            Como x &ge; 2<sup>n</sup>, la igualdad es correcta.
+                            Además, [y] mantiene intacto su valor de entrada.
+                        </span>
+                        <span class="linea">  - <span class="kw">unfold</span> cuadrante_SE.</span>
+                        <span class="linea">    <span class="kw">apply</span> pixel_eq.</span>
+                        <span class="linea">    <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso 4: NE</b> (x &ge; 2<sup>n</sup>, y &ge; 2<sup>n</sup>).<br>
+                            [x] tiene el mismo comportamiento que en el caso 3,
+                            mientras que [y] tiene el mismo comportamiento que 
+                            en el caso 2, por lo cual las coordenadas son:<br>
+                            - (x - 2<sup>n</sup>) + 2<sup>n</sup> = x<br>
+                            - (y - 2<sup>n</sup>) + 2<sup>n</sup> = y 
+                        </span>
+                        <span class="linea">  - <span class="kw">unfold</span> cuadrante_NE.</span>
+                        <span class="linea">    <span class="kw">apply</span> pixel_eq.</span>
+                        <span class="linea">    <span class="kw">lia</span>.</span>
+
+                    </details>
 
                 </div>
             </div>
@@ -438,18 +584,12 @@
                         </span>
                         <span class="linea">  | Leaf : pixel -> region_qt</span>
                         <span class="texto-explicativo">
-                            Si la imagen es heterogénea, se define cursivamente sobre 4
+                            Si la imagen es heterogénea, se define recursivamente sobre 4
                             subárboles que corresponden de manera ordenada a los cuadrantes:
                             NW, NE, SW y SE. 
                         </span>
-                        <span class="linea">| Node : region_qt -> region_qt -> region_qt -> region_qt -> region_qt.</span>
+                        <span class="linea">  | Node : region_qt -> region_qt -> region_qt -> region_qt -> region_qt.</span>
                     </div>
-
-                    <p style="text-align: justify;">
-                        Cualquier región homogénea es una hoja en el árbol;
-                        agregamos como argumento el <span class="inlinecode"><span class="id" title="var">pixel</span></span> dentro de la imagen para
-                        recuperar el valor del color homogéneo que representa la hoja. 
-                    </p>
 
                     <div class="subtema-linea">Construcción RQT</div>
 
@@ -474,7 +614,7 @@
                         <span class="linea">        <span class="kw">fun</span> img =></span>
                         <span class="linea">          Some (img 0 0 (Nat.lt_0_1) (Nat.lt_0_1))</span>
                         <span class="linea">    | S n' =></span>
-                        <span class="linea">        <span class="kw"></span>fun img =></span>
+                        <span class="linea">        <span class="kw"></span><span class="kw">fun</span> img =></span>
                         <span class="linea">          <span class="kw">match</span> es_homogenea n' (cuadrante_NW img),</span>
                         <span class="linea">                es_homogenea n' (cuadrante_NE img),</span>
                         <span class="linea">                es_homogenea n' (cuadrante_SW img),</span>
@@ -505,11 +645,121 @@
                         exactamente el color identificado. 
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Theorem</span> es_homogenea_correcta : forall n img color,</span>
-                        <span class="linea">  es_homogenea n img = Some color -></span>
-                        <span class="linea">  (forall x y Hx Hy, img x y Hx Hy = color).</span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Theorem</span> es_homogenea_correcta : forall n img color,</span>
+                            <span class="linea">  es_homogenea n img = Some color -></span>
+                            <span class="linea">  (forall x y Hx Hy, img x y Hx Hy = color).</span>
+
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
+
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">induction</span> n <span class="kw">as</span> [| n' IHn']..</span>
+                        <span class="texto-explicativo">
+                            <b>Caso Base</b> (n = 0): Píxel (Imagen de 2<sup>0</sup> &times; 2<sup>0</sup>)
+                        </span>
+                        <span class="linea">    <span class="kw">intros</span>.</span>
+                        <span class="linea">    <span class="kw">simpl</span> in H.</span></span>
+                        <span class="linea">    <span class="kw">injection</span> H <span class="kw">as</span> H_color.</span>
+                        <span class="linea">    <span class="kw">rewrite</span> <- H_color.</span>
+                        <span class="linea">    <span class="kw">simpl</span> in Hx;</span>
+                        <span class="linea">    <span class="kw">simpl</span> in Hy.</span>
+                        <span class="linea">    <span class="kw">apply</span> pixel_eq;</span>
+                        <span class="linea">    <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            <b>Paso Inductivo</b> (n &gt; 0 ): La imagen puede ser dividida en 4 cuadrantes.<br>
+                            Procedemos por casos sobre los resultados favorables.
+                        </span>
+                        <span class="linea">    <span class="kw">intros</span>.</span>
+                        <span class="linea">    <span class="kw">simpl</span> in H.</span>
+                        <span class="linea">    <span class="kw">destruct</span> (es_homogenea n' (cuadrante_NW img)) <span class="kw">as</span> [c_nw |] eqn:H_nw; <span class="kw">try discriminate</span>;</span>
+                        <span class="linea">    <span class="kw">destruct</span> (es_homogenea n' (cuadrante_NE img)) <span class="kw">as</span> [c_ne |] eqn:H_ne; <span class="kw">try discriminate</span>;</span>
+                        <span class="linea">    <span class="kw">destruct</span> (es_homogenea n' (cuadrante_SW img)) <span class="kw">as</span> [c_sw |] eqn:H_sw; <span class="kw">try discriminate</span>;</span>
+                        <span class="linea">    <span class="kw">destruct</span> (es_homogenea n' (cuadrante_SE img)) <span class="kw">as</span> [c_se |] eqn:H_se; <span class="kw">try discriminate</span>.</span>
+                        <span class="linea"></span>
+                        <span class="linea">    <span class="kw">destruct</span> c_nw, c_ne, c_sw, c_se; <span class="kw">try discriminate</span>.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso [true]:</b> <br>
+                            Los 4 cuadrantes están representados por el color 
+                            correspondiente al valor [true].
+                        </span>
+                        <span class="linea">      <span class="kw">injection</span> H <span class="kw">as</span> H_color.</span>
+                        <span class="linea">      <span class="kw">subst</span> color.</span>
+                        <span class="linea">      <span class="kw">destruct</span> (lt_dec x (2^n')) <span class="kw">as</span> [Hx_lt | Hx_ge];</span>
+                        <span class="linea">      <span class="kw">destruct</span> (lt_dec y (2^n')) <span class="kw">as</span> [Hy_lt | Hy_ge].</span>
+                        <span class="texto-explicativo">
+                            Pixel en el cuadrante SW
+                        </span>
+                        <span class="linea">      * <span class="kw">assert</span> (H_pixel : cuadrante_SW img x y Hx_lt Hy_lt = true).</span>
+                        <span class="linea">        { <span class="kw">apply</span> IHn'; <span class="kw">exact</span> H_sw. }</span>
+                        <span class="linea">        <span class="kw">unfold</span> cuadrante_SW <span class="kw">in</span> H_pixel.</span>
+                        <span class="linea">        <span class="kw">rewrite</span> <- H_pixel.</span>
+                        <span class="linea">        <span class="kw">apply</span> pixel_eq;</span>
+                        <span class="linea">        <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            Pixel en el cuadrante SE
+                        </span>
+                        <span class="linea">        <span class="kw">assert</span> (H_pixel : cuadrante_SE img (x - 2^n') y (localiza_xy_desde_2n x n' Hx_ge Hx) Hy_lt = true).</span>
+                        <span class="linea">        { <span class="kw">apply</span> IHn'; <span class="kw">exact</span> H_se. }</span>
+                        <span class="linea">        <span class="kw">unfold</span> cuadrante_SE <span class="kw">in</span> H_pixel.</span>
+                        <span class="linea">        <span class="kw">rewrite</span> <- H_pixel.</span>
+                        <span class="linea">        <span class="kw">apply</span> pixel_eq;</span>
+                        <span class="linea">        <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            Pixel en el cuadrante NE
+                        </span>
+                        <span class="linea">        <span class="kw">assert</span> (H_pixel : cuadrante_NE img (x - 2^n') (y - 2^n') (localiza_xy_desde_2n x n' Hx_ge Hx) (localiza_xy_desde_2n y n' Hy_ge Hy) = true).</span>
+                        <span class="linea">        { <span class="kw">apply</span> IHn'; <span class="kw">exact</span> H_ne. }</span>
+                        <span class="linea">        <span class="kw">unfold</span> cuadrante_NE <span class="kw">in</span> H_pixel.</span>
+                        <span class="linea">        <span class="kw">rewrite</span> <- H_pixel.</span>
+                        <span class="linea">        <span class="kw">apply</span> pixel_eq;</span>
+                        <span class="linea">        <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso [false]:</b> <br>
+                            Los 4 cuadrantes están representados por el color 
+                            correspondiente al valor [false].
+                        </span>
+                        <span class="linea">    + <span class="kw">injection</span> H <span class="kw">as</span> H_color.</span>
+                        <span class="linea">      <span class="kw">subst</span> color.</span>
+                        <span class="linea">      <span class="kw">destruct</span> (lt_dec x (2^n')) <span class="kw">as</span> [Hx_lt | Hx_ge];</span>
+                        <span class="linea">      <span class="kw">destruct</span> (lt_dec y (2^n')) <span class="kw">as</span> [Hy_lt | Hy_ge].</span>
+                        <span class="texto-explicativo">
+                            Pixel en el cuadrante SW
+                        </span>
+                        <span class="linea">      * <span class="kw">assert</span> (H_pixel : cuadrante_SW img x y Hx_lt Hy_lt = false).</span>
+                        <span class="linea">        { <span class="kw">apply</span> IHn'; <span class="kw">exact</span> H_sw. }</span>
+                        <span class="linea">        <span class="kw">unfold</span> cuadrante_SW in H_pixel.</span>
+                        <span class="linea">        <span class="kw">rewrite</span> <- H_pixel.</span>
+                        <span class="linea">        <span class="kw">apply</span> pixel_eq; <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            Pixel en el cuadrante NW
+                        </span>
+                        <span class="linea">      * <span class="kw">assert</span> (H_pixel : cuadrante_NW img x (y - 2^n') Hx_lt (localiza_xy_desde_2n y n' Hy_ge Hy) = false).</span>
+                        <span class="linea">        { <span class="kw">apply</span> IHn'; <span class="kw">exact</span> H_nw. }</span>
+                        <span class="linea">        <span class="kw">unfold</span> cuadrante_NW <span class="kw">in</span> H_pixel.</span>
+                        <span class="linea">        <span class="kw">rewrite</span> <- H_pixel.</span>
+                        <span class="linea">        <span class="kw">apply</span> pixel_eq; <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            Pixel en el cuadrante SE
+                        </span>
+                        <span class="linea">      * <span class="kw">assert</span> (H_pixel : cuadrante_SE img (x - 2^n') y (localiza_xy_desde_2n x n' Hx_ge Hx) Hy_lt = false).</span>
+                        <span class="linea">        { <span class="kw">apply</span> IHn'; <span class="kw">exact</span> H_se. }</span>
+                        <span class="linea">        <span class="kw">unfold</span> cuadrante_SE <span class="kw">in</span> H_pixel.</span>
+                        <span class="linea">        <span class="kw">rewrite</span> <- H_pixel.</span>
+                        <span class="linea">        <span class="kw">apply</span> pixel_eq; <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            Pixel en el cuadrante NE
+                        </span>
+                        <span class="linea">      * <span class="kw">assert</span> (H_pixel : cuadrante_NE img (x - 2^n') (y - 2^n') (localiza_xy_desde_2n x n' Hx_ge Hx) (localiza_xy_desde_2n y n' Hy_ge Hy) = false).</span>
+                        <span class="linea">        { <span class="kw">apply</span> IHn'; <span class="kw">exact</span> H_ne. }</span>
+                        <span class="linea">        <span class="kw">unfold</span> cuadrante_NE <span class="kw">in</span> H_pixel.</span>
+                        <span class="linea">        <span class="kw">rewrite</span> <- H_pixel.</span>
+                        <span class="linea">        <span class="kw">apply</span> pixel_eq; <span class="kw">lia</span>.</span>
+                        <span class="linea"><span class="kw">Qed</span>.</span>
+
+                    </details>
 
                     <p style="text-align: justify;">
                         Tras verificar que la función <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span> se comporta correctamente,
@@ -631,10 +881,62 @@
                         el proceso de almacenamiento y recuperación de cualquier imagen. 
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Theorem</span> identidad_region_qt : forall (n : nat) (img : imagen n),</span>
-                        <span class="linea">  recorre_region_qt n (construye_region_qt n img) = img.</span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Theorem</span> identidad_region_qt : forall (n : nat) (img : imagen n),</span>
+                            <span class="linea">  recorre_region_qt n (construye_region_qt n img) = img.</span>
+                            
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
+                        
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">intros</span>.</span>
+                        <span class="linea">  induction n as [| n' IHn'].</span>
+                        <span class="texto-explicativo">
+                            <b>Caso Base</b> (n = 0): La imagen es un pixel.
+                        </span>
+                        <span class="linea">  - <span class="kw">simpl</span>.</span>
+                        <span class="linea">    <span class="kw">extensionality</span> x.</span>
+                        <span class="linea">    <span class="kw">extensionality</span> y.</span>
+                        <span class="linea">    <span class="kw">extensionality</span> Hx; <span class="kw">simpl</span> in Hx.</span>
+                        <span class="linea">    <span class="kw">extensionality</span> Hy; <span class="kw">simpl</span> in Hy.</span>
+                        <span class="linea">    <span class="kw">unfold</span> generar_imagen_homogenea.</span>
+                        <span class="linea">    <span class="kw">symmetry</span>.</span>
+                        <span class="linea">    <span class="kw">apply</span> pixel_eq.</span>
+                        <span class="linea">    + <span class="kw">lia</span>.</span>
+                        <span class="linea">    + <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            <b>Paso Inductivo</b> (n = S n'): La imagen puede ser dividida en cuadrantes.
+                        </span>
+                        <span class="linea">  - <span class="kw">simpl</span> construye_region_qt. </span>
+                        <span class="linea">    <span class="kw">destruct</span> (es_homogenea (S n') img) <span class="kw">as</span> [color |] eqn:Hom.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso [Leaf]:</b> Los cuadrantes contienen regiones homogéneas del mismo color
+                        </span>
+                        <span class="linea">    + <span class="kw">simpl</span> recorre_region_qt.</span>
+                        <span class="linea">      <span class="kw">extensionality</span> x;</span>
+                        <span class="linea">      <span class="kw">extensionality</span> y;</span>
+                        <span class="linea">      <span class="kw">extensionality</span> Hx;</span>
+                        <span class="linea">      <span class="kw">extensionality</span> Hy.</span>
+                        <span class="linea">      <span class="kw">unfold</span> generar_imagen_homogenea.</span>
+                        <span class="linea">      <span class="kw">assert</span> (H_color : img x y Hx Hy = color).</span>
+                        <span class="linea">      { <span class="kw">exact</span> (es_homogenea_correcta (S n') img color Hom x y Hx Hy). }</span>
+                        <span class="linea">      <span class="kw">symmetry</span>.</span>
+                        <span class="linea">      <span class="kw">exact</span> H_color.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso [Node]:</b> La imagen contiene variación de colores y requirió dividirse
+                        </span>
+                        <span class="linea">    + <span class="kw">simpl</span> recorre_region_qt.</span>
+                        <span class="linea">      <span class="kw">rewrite</span> IHn';</span>
+                        <span class="linea">      <span class="kw">rewrite</span> IHn';</span>
+                        <span class="linea">      <span class="kw">rewrite</span> IHn';</span>
+                        <span class="linea">      <span class="kw">rewrite</span> IHn'.</span>
+                        <span class="linea">      <span class="kw">apply</span> teorema_ensamblaje.</span>
+                        <span class="linea"><span class="kw">Qed</span>.</span>
+
+                    </details>
+
                 </div>
             </div>
         </div>
@@ -687,10 +989,49 @@
                         <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span> identificó la región como homogénea devolviendo <span class="inlinecode"><span class="id" title="var">Some</span></span> <span class="inlinecode"><span class="id" title="var">c</span></span>. 
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Lemma</span> construye_leaf_homogenea : forall n img c,</span>
-                        <span class="linea">  construye_region_qt n img = Leaf c -> es_homogenea n img = Some c.</span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Lemma</span> construye_leaf_homogenea : forall n img c,</span>
+                            <span class="linea">  construye_region_qt n img = Leaf c -> es_homogenea n img = Some c.</span>
+                    
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
+                        
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">intros</span> n img c.</span>
+                        <span class="linea">  <span class="kw">destruct</span> n <span class="kw">as</span> [| n'].</span>
+                        <span class="texto-explicativo">
+                            <b>Caso Base</b> (n = 0): La imagen representa un pixel.
+                        </span>
+                        <span class="linea">  - <span class="kw">intros</span> H.</span>
+                        <span class="linea">    <span class="kw">simpl</span> in H.</span>
+                        <span class="linea">    <span class="kw">injection</span> H <span class="kw">as</span> H_color.</span>
+                        <span class="linea">    <span class="kw">rewrite</span> <- H_color.</span>
+                        <span class="linea">    <span class="kw">reflexivity</span>.</span>
+                        <span class="linea"></span>
+                        <span class="texto-explicativo">
+                            <b>Paso Inductivo</b> (n = S n'): La imagen se puede dividir en 4 cuadrantes.
+                        </span>
+                        <span class="linea">  - <span class="kw">intros</span> H.</span>
+                        <span class="linea">    <span class="kw">simpl</span> in H.</span>
+                        <span class="linea">    <span class="kw">destruct</span> (es_homogenea (S n') img) eqn:Hom.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso [Some]:</b> [es_homogenea (S n') img = Some p] 
+                        </span>
+                        <span class="linea">    + <span class="kw">injection</span> H <span class="kw">as</span> Hc.</span>
+                        <span class="linea">      <span class="kw">rewrite</span> Hc.</span>
+                        <span class="linea">      <span class="kw">reflexivity</span>.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso [None]:</b> [es_homogenea (S n') img = None] <br>
+                            El constructor Node jamás podrá ser definido de manera
+                            equivalente al constructor Leaf, por lo cual, el caso
+                            no tiene sentido.
+                        </span>
+                        <span class="linea">      <span class="kw">discriminate</span> H.</span>
+                        <span class="linea"><span class="kw">Qed</span>.</span>
+                        
+                    </details>
 
                     <div class="subtema-caja">
                         <div class="subtema-caja-titulo">Nota: Extensión de la definición</div>
@@ -718,26 +1059,42 @@
                         <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span> devolverá <span class="inlinecode"><span class="id" title="var">Some</span></span> <span class="inlinecode"><span class="id" title="var">c</span></span> para la imagen que los contiene. 
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Lemma</span> composicion_homogenea : forall n img c,</span>
-                        <span class="linea">  es_homogenea n (cuadrante_NW img) = Some c -></span>
-                        <span class="linea">  es_homogenea n (cuadrante_NE img) = Some c -></span>
-                        <span class="linea">  es_homogenea n (cuadrante_SW img) = Some c -></span>
-                        <span class="linea">  es_homogenea n (cuadrante_SE img) = Some c -></span>
-                        <span class="linea">  es_homogenea (S n) img = Some c.</span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Lemma</span> composicion_homogenea : forall n img c,</span>
+                            <span class="linea">  es_homogenea n (cuadrante_NW img) = Some c -></span>
+                            <span class="linea">  es_homogenea n (cuadrante_NE img) = Some c -></span>
+                            <span class="linea">  es_homogenea n (cuadrante_SW img) = Some c -></span>
+                            <span class="linea">  es_homogenea n (cuadrante_SE img) = Some c -></span>
+                            <span class="linea">  es_homogenea (S n) img = Some c.</span>
+                            
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
+                        
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">intros</span> n img c Hnw Hne Hsw Hse.</span>
+                        <span class="linea">  <span class="kw">simpl</span>.</span>
+                        <span class="linea">  <span class="kw">rewrite</span> Hnw; <span class="kw">rewrite</span> Hne; <span class="kw">rewrite</span> Hsw; <span class="kw">rewrite</span> Hse.</span>
+                        <span class="linea">  <span class="kw">destruct</span> c.</span>
+                        <span class="linea">  + <span class="kw">reflexivity</span>.</span>
+                        <span class="linea">  + <span class="kw">reflexivity</span>.</span>
+                        <span class="linea"><span class="kw">Qed</span>.</span>
+                        
+                    </details>
 
-                    <p style="text-align: justify;">
-                        Tras haber demostrado el lema anterior, y por la misma
-                        razón por la cual prohibimos a <span class="inlinecode"><span class="id" title="tactic">simpl</span></span> desarrollar 
-                        la definición de la función <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span>, volvemos a
-                        ocultarla.   
-                    </p>
+                    <div class="subtema-caja">
+                        <p style="text-align: justify;">
+                            Tras haber demostrado el lema anterior, y por la misma
+                            razón por la cual prohibimos a <span class="inlinecode"><span class="id" title="tactic"><span class="kw">simpl</span></span></span> desarrollar 
+                            la definición de la función <span class="inlinecode"><span class="id" title="var">es_homogenea</span></span>, volvemos a
+                            ocultarla.   
+                        </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Opaque</span> es_homogenea.</span>
+                        <div class="codigo-bloque">
+                            <span class="linea"><span class="kw">Opaque</span> es_homogenea.</span>
+                        </div>
                     </div>
-                    
 
                     <div class="subtema-linea">Teorema: Construcción Mínima</div>
 
@@ -747,10 +1104,63 @@
                         el árbol representativo minimizado. 
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Theorem</span> construccion_es_minima : forall n img,</span>
-                        <span class="linea">  es_minimo (construye_region_qt n img).</span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Theorem</span> construccion_es_minima : forall n img,</span>
+                            <span class="linea">  es_minimo (construye_region_qt n img).</span>
+                            
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
+                        
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">intros</span> n.</span>
+                        <span class="linea">  induction n as [| n' IHn'].</span>
+                        <span class="texto-explicativo">
+                            <b>Caso Base</b> (n = 0 ): La imagen es un píxel.
+                        </span>
+                        <span class="linea">  - <span class="kw">intros</span> img.</span>
+                        <span class="linea">    <span class="kw">simpl</span> construye_region_qt.</span>
+                        <span class="linea">    <span class="kw">apply</span> Min_Leaf.</span>
+                        <span class="texto-explicativo">
+                            <b>Paso Inductivo</b> (n = S n'): La imagen se puede dividir en 4 cuadrantes.
+                        </span>
+                        <span class="linea">  - <span class="kw">intros</span> img.</span>
+                        <span class="linea">    <span class="kw">simpl</span> construye_region_qt.</span>
+                        <span class="linea">    <span class="kw">destruct</span> (es_homogenea (S n') img) <span class="kw">as</span> [color |] eqn:Hom.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso [Some]:</b> <br>
+                            Los cuadrantes contienen regiones homogéneas del mismo color y,
+                            por tanto, se representan en una hoja, que por definición cumple
+                            ser la representación mínima de la región.
+                        </span>
+                        <span class="linea">    + <span class="kw">apply</span> Min_Leaf.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso [None]:</b> <br>
+                            La imagen se compone de 4 cuadrantes con diferentes colores,
+                            por lo que se representa con el constructor [Node].
+                        </span>
+                        <span class="linea">    + <span class="kw">apply</span> Min_Node.</span>
+                        <span class="linea">      * <span class="kw">apply</span> IHn'. (*NW*)</span>
+                        <span class="linea">      * <span class="kw">apply</span> IHn'. (*NE*)</span>
+                        <span class="linea">      * <span class="kw">apply</span> IHn'. (*Sw*)</span>
+                        <span class="linea">      * <span class="kw">apply</span> IHn'. (*SE*)</span>
+                        <span class="texto-explicativo">
+                            Por contradicción, asumamos que los subárboles representan una región
+                            homogénea del mismo color.
+                        </span>
+                        <span class="linea">      * <span class="kw">intros</span> [c [Hnw [Hne [Hsw Hse]]]].</span>
+                        <span class="linea">        <span class="kw">apply</span> construye_leaf_homogenea in Hnw;</span>
+                        <span class="linea">        <span class="kw">apply</span> construye_leaf_homogenea in Hne;</span>
+                        <span class="linea">        <span class="kw">apply</span> construye_leaf_homogenea in Hsw;</span>
+                        <span class="linea">        <span class="kw">apply</span> construye_leaf_homogenea in Hse.</span>
+                        <span class="linea">        <span class="kw">assert</span> (Contra : es_homogenea (S n') img = Some c).</span>
+                        <span class="linea">        { <span class="kw">exact</span> (composicion_homogenea n' img c Hnw Hne Hsw Hse). }</span>
+                        <span class="linea">        <span class="kw">rewrite</span> Hom <span class="kw">in</span> Contra.</span>
+                        <span class="linea">        <span class="kw">discriminate</span> Contra.</span>
+                        <span class="linea"><span class="kw">Qed</span>.</span>
+                        
+                    </details>
 
                     <div class="subtema-linea">Altura Máxima.</div>
 
@@ -779,15 +1189,61 @@
                         es a lo más, log<sub>4</sub>(num_pixeles) = n . 
                     </p>
 
-                    <div class="codigo-bloque">
-                        <span class="linea"><span class="kw">Theorem</span> altura_max : forall n img,</span>
-                        <span class="linea">  altura_qt (construye_region_qt n img) <= n.</span>
-                    </div>
+                    <details class="codigo-bloque">
+    
+                        <summary>
+                            <span class="linea"><span class="kw">Theorem</span> altura_max : forall n img,</span>
+                            <span class="linea">  altura_qt (construye_region_qt n img) <= n.</span>
+                            
+                            <div class="mensaje-desplegar">▶ Demostración</div>
+                        </summary>
+                        
+                        <span class="linea"><span class="kw">Proof</span>.</span>
+                        <span class="linea">  <span class="kw">intros</span> n.</span>
+                        <span class="linea">  <span class="kw">induction</span> n <span class="kw">as</span> [| n' IHn'].</span>
+                        <span class="texto-explicativo">
+                            <b>Caso Base</b> (n = 0): La imagen es un píxel.
+                        </span>
+                        <span class="linea">  - <span class="kw">intros</span> img.</span>
+                        <span class="linea">    <span class="kw">simpl</span> construye_region_qt. </span>
+                        <span class="linea">    <span class="kw">simpl</span> altura_qt. </span>
+                        <span class="linea">    <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            <b>Paso Inductivo</b> (n = S n'): La imagen puede dividirse en 4 cuadrantes.
+                        </span>
+                        <span class="linea">  - <span class="kw">intros</span> img.</span>
+                        <span class="linea">    <span class="kw">simpl</span> construye_region_qt.</span>
+                        <span class="linea">    <span class="kw">destruct</span> (es_homogenea (S n') img) <span class="kw">as</span> [color |] eqn:Hom.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso [Some]:</b> <br>
+                            Los cuadrantes contienen regiones homogéneas del mismo color y,
+                            por tanto, se representan en una hoja,
+                            que por definición tiene altura 0.
+                        </span>
+                        <span class="linea">    + <span class="kw">simpl</span> altura_qt.</span>
+                        <span class="linea">      <span class="kw">lia</span>.</span>
+                        <span class="texto-explicativo">
+                            <b>Caso [None]:</b> <br>
+                            La imagen se compone de 4 cuadrantes con diferentes colores,
+                            por lo que se representa con el constructor [Node] (tiene 4 subárboles).
+                        </span>
+                        <span class="linea">    + <span class="kw">simpl</span> altura_qt.</span>
+                        <span class="linea"><span class="kw">assert</span> (Hnw : altura_qt (construye_region_qt n' (cuadrante_NW img)) <= n').</span>
+                        <span class="linea">      { <span class="kw">exact</span> (IHn' (cuadrante_NW img)). }</span>
+                        <span class="linea">      <span class="kw">assert</span> (Hne : altura_qt (construye_region_qt n' (cuadrante_NE img)) <= n').</span>
+                        <span class="linea">      { <span class="kw">exact</span> (IHn' (cuadrante_NE img)). }</span>
+                        <span class="linea">      <span class="kw">assert</span> (Hsw : altura_qt (construye_region_qt n' (cuadrante_SW img)) <= n').</span>
+                        <span class="linea">      { <span class="kw">exact</span> (IHn' (cuadrante_SW img)). }</span>
+                        <span class="linea">      <span class="kw">assert</span> (Hse : altura_qt (construye_region_qt n' (cuadrante_SE img)) <= n').</span>
+                        <span class="linea">      { <span class="kw">exact</span> (IHn' (cuadrante_SE img)). }</span>
+                        <span class="linea">      <span class="kw">lia</span>.</span>
+                        <span class="linea"><span class="kw">Qed</span>.</span>
+                        
+                    </details>
 
                 </div>
             </div>
         </div>
-
 
     </main>
 </body>
